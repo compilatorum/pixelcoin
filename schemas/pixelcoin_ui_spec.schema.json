@@ -1,0 +1,332 @@
+{
+  "$defs": {
+    "DeclarativeActionSpec": {
+      "description": "Ação declarativa permitida na Especificação de UI (Camada 5).",
+      "properties": {
+        "action_id": {
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_type": {
+          "description": "Deve pertencer a ALLOWED_DECLARATIVE_ACTIONS",
+          "title": "Action Type",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "execution_mode": {
+          "default": "simulation",
+          "description": "simulation | authorized_mutation (Regra 4: separação entre análise e execução)",
+          "title": "Execution Mode",
+          "type": "string"
+        },
+        "requires_human_approval": {
+          "default": true,
+          "description": "Operações que registram decisões ou alteram estado exigem confirmação explícita",
+          "title": "Requires Human Approval",
+          "type": "boolean"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "action_id",
+        "action_type",
+        "label",
+        "target_id"
+      ],
+      "title": "DeclarativeActionSpec",
+      "type": "object"
+    },
+    "InspectionLayer": {
+      "description": "Nível 2 da Compressão Semântica: Inspeção (fatores que explicam a representação).",
+      "properties": {
+        "causal_factors": {
+          "description": "Fatores que explicam por que a recomendação aparece assim",
+          "items": {
+            "type": "string"
+          },
+          "title": "Causal Factors",
+          "type": "array"
+        },
+        "observed_vs_estimated_breakdown": {
+          "description": "Transparência explícita sobre quantas dimensões/métricas são observadas vs. estimadas",
+          "title": "Observed Vs Estimated Breakdown",
+          "type": "string"
+        },
+        "decision_criteria_used": {
+          "description": "Critérios explícitos de priorização aplicados",
+          "items": {
+            "type": "string"
+          },
+          "title": "Decision Criteria Used",
+          "type": "array"
+        },
+        "alternative_scenarios": {
+          "description": "Cenários alternativos comparados",
+          "items": {
+            "type": "string"
+          },
+          "title": "Alternative Scenarios",
+          "type": "array"
+        }
+      },
+      "required": [
+        "causal_factors",
+        "observed_vs_estimated_breakdown",
+        "decision_criteria_used"
+      ],
+      "title": "InspectionLayer",
+      "type": "object"
+    },
+    "InstantViewLayer": {
+      "description": "Nível 1 da Compressão Semântica: Visão instantânea (o sinal principal, a prioridade ou a anomalia).",
+      "properties": {
+        "headline_signal": {
+          "description": "Sinal principal em uma frase direta",
+          "title": "Headline Signal",
+          "type": "string"
+        },
+        "top_priority_action": {
+          "description": "Ação prioritária recomendada agora",
+          "title": "Top Priority Action",
+          "type": "string"
+        },
+        "detected_anomaly_or_bottleneck": {
+          "description": "Anomalia, bloqueio de direitos ou gargalo que exige atenção",
+          "title": "Detected Anomaly Or Bottleneck",
+          "type": "string"
+        }
+      },
+      "required": [
+        "headline_signal",
+        "top_priority_action",
+        "detected_anomaly_or_bottleneck"
+      ],
+      "title": "InstantViewLayer",
+      "type": "object"
+    },
+    "MetricIndicator": {
+      "description": "Unidade visual elementar (\"Pixel\" de decisão) com fonte ou marcação explícita de estimativa.",
+      "properties": {
+        "indicator_id": {
+          "title": "Indicator Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "unit": {
+          "default": "",
+          "title": "Unit",
+          "type": "string"
+        },
+        "is_estimate": {
+          "description": "Regra 1 (Dados antes da estética): True se estimativa; False apenas se houver dado observado",
+          "title": "Is Estimate",
+          "type": "boolean"
+        },
+        "source_refs": {
+          "description": "IDs de fontes na Camada 1 que sustentam este indicador",
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "semantic_meaning": {
+          "description": "Consequência ou significado deste indicador para a decisão",
+          "title": "Semantic Meaning",
+          "type": "string"
+        }
+      },
+      "required": [
+        "indicator_id",
+        "label",
+        "value",
+        "is_estimate",
+        "semantic_meaning"
+      ],
+      "title": "MetricIndicator",
+      "type": "object"
+    },
+    "PersonaPerspective": {
+      "enum": [
+        "executiva",
+        "desenvolvedor",
+        "cientifica"
+      ],
+      "title": "PersonaPerspective",
+      "type": "string"
+    },
+    "SemanticCompressionTriad": {
+      "description": "Estrutura obrigatória dos 3 níveis da Regra da Compressão Semântica.",
+      "properties": {
+        "instant_view": {
+          "$ref": "#/$defs/InstantViewLayer"
+        },
+        "inspection": {
+          "$ref": "#/$defs/InspectionLayer"
+        },
+        "traceability": {
+          "$ref": "#/$defs/TraceabilityLayer"
+        }
+      },
+      "required": [
+        "instant_view",
+        "inspection",
+        "traceability"
+      ],
+      "title": "SemanticCompressionTriad",
+      "type": "object"
+    },
+    "TraceabilityLayer": {
+      "description": "Nível 3 da Compressão Semântica: Rastreabilidade (fontes, premissas, versões, incertezas e dados originais).",
+      "properties": {
+        "source_records": {
+          "description": "Fontes primárias com ID, título, URI e hash SHA-256",
+          "items": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "title": "Source Records",
+          "type": "array"
+        },
+        "assumptions": {
+          "description": "Premissas assumidas na análise",
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "uncertainties": {
+          "description": "Incertezas remanescentes que precisam de validação",
+          "items": {
+            "type": "string"
+          },
+          "title": "Uncertainties",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "pixelcoin-ui-spec/1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_records",
+        "assumptions",
+        "uncertainties"
+      ],
+      "title": "TraceabilityLayer",
+      "type": "object"
+    },
+    "VisualRepresentationType": {
+      "enum": [
+        "radial_profile",
+        "knowledge_graph",
+        "portfolio_mosaic",
+        "decision_matrix",
+        "capital_flow",
+        "alchemical_emblem"
+      ],
+      "title": "VisualRepresentationType",
+      "type": "string"
+    }
+  },
+  "description": "Especificação declarativa completa da UI gerada pela Camada 4 (Server-Driven / Generative UI)\ne consumida pelos renderizadores da Camada 6 (Web, Emacs, Mobile, Agentes).",
+  "properties": {
+    "spec_id": {
+      "title": "Spec Id",
+      "type": "string"
+    },
+    "prompt": {
+      "title": "Prompt",
+      "type": "string"
+    },
+    "interpreted_intent": {
+      "title": "Interpreted Intent",
+      "type": "string"
+    },
+    "perspective": {
+      "$ref": "#/$defs/PersonaPerspective",
+      "default": "executiva"
+    },
+    "primary_representation": {
+      "$ref": "#/$defs/VisualRepresentationType"
+    },
+    "available_representations": {
+      "items": {
+        "$ref": "#/$defs/VisualRepresentationType"
+      },
+      "title": "Available Representations",
+      "type": "array"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "subtitle": {
+      "title": "Subtitle",
+      "type": "string"
+    },
+    "semantic_compression": {
+      "$ref": "#/$defs/SemanticCompressionTriad"
+    },
+    "indicators": {
+      "items": {
+        "$ref": "#/$defs/MetricIndicator"
+      },
+      "title": "Indicators",
+      "type": "array"
+    },
+    "visual_payloads": {
+      "additionalProperties": true,
+      "description": "Dados estruturados para as 5 representações infoestéticas (radial, graph, mosaic, matrix, flow) e catálogos/planos",
+      "title": "Visual Payloads",
+      "type": "object"
+    },
+    "allowed_actions": {
+      "items": {
+        "$ref": "#/$defs/DeclarativeActionSpec"
+      },
+      "title": "Allowed Actions",
+      "type": "array"
+    },
+    "guardrail_attestation": {
+      "additionalProperties": true,
+      "title": "Guardrail Attestation",
+      "type": "object"
+    }
+  },
+  "required": [
+    "spec_id",
+    "prompt",
+    "interpreted_intent",
+    "primary_representation",
+    "title",
+    "subtitle",
+    "semantic_compression",
+    "indicators",
+    "visual_payloads",
+    "allowed_actions"
+  ],
+  "title": "DeclarativeUISpecification",
+  "type": "object"
+}

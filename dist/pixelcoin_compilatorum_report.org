@@ -1,0 +1,160 @@
+#+TITLE: PixelCoin — Emblema Alquímico de Compressão Máxima, Puxers Quantitativos & LottieMCP
+#+SUBTITLE: Curadoria do mar de informações de investimento por Ressonância Lógico-Estética (R_LE), Vetores SVG e Templates Lottie
+#+PROPERTY: SPEC_ID ui-spec-71cd77a5e33b
+#+PROPERTY: PROMPT Condense o mar de informações de investimento em um Emblema Alquímico com puxers quantitativos, vetores e Lottie.
+#+PROPERTY: INTENT curate_investment_sea_and_compile_alchemical_emblem
+#+PROPERTY: PERSPECTIVE executiva
+#+PROPERTY: PRIMARY_VIEW alchemical_emblem
+#+STARTUP: overview indent
+
+* 1. Compressão Semântica (3 Níveis)
+** 1.1 Visão Instantânea (Sinal Principal)
+- *Sinal Principal:* Mar de informações de investimento condensado em 52 Puxers Quantitativos e 1 Emblema Alquímico com Ressonância Lógico-Estética R_LE = 0.85.
+- *Ação Prioritária:* Cada Puxer Monetário (🜃 Terra / 🜄 Aqua) = R$ 250; cada Puxer Experimental (🜂 Ignis) = 5% ΔIncerteza; 6 templates LottieMCP prontos para parametrização via JSON.
+- *Anomalia / Gargalo:* Equilíbrio harmônico entre Valor Realizado (15 puxers 🜃) e Capital Comprometido (8 puxers 🜄) aproxima-se da razão áurea φ = 1.618.
+
+** 1.2 Inspeção (Explicabilidade & Critérios)
+- *Transparência Epistemológica:* Transparência Epistemológica: Das 18 dimensões avaliadas nos gráficos radiais do portfólio, 14 baseiam-se em evidências empíricas observadas nos repositórios/entrevistas e 4 são estimativas explícitas que exigem experimentos de validação.
+  + Experimento C (Licenças, R$ 350) entrega 108.57 pts de redução de incerteza por R$ 1.000 investidos, destravando gargalos jurídicos.
+  + Experimento A (Validar demanda por curadoria, R$ 450) entrega 93.33 pts de redução de incerteza por R$ 1.000, com base em 12 entrevistas prévias (83.3% preferem solução sem blockchain).
+  + Construir a API completa agora (Experimento B, R$ 1.200) tem menor eficiência marginal (29.17 pts/R$ 1k) até que a demanda e as licenças do Oracle estejam validadas.
+  + Perspectiva ativa: 'EXECUTIVA' — ajustando nível de detalhe técnico, financeiro e epistemológico.
+- *Cenários Comparados:*
+  + Cenário Enxuto (R$ 800): Executar C (R$ 350) + A (R$ 450) → Reduz 68% da incerteza comercial e jurídica em 12 dias.
+  + Cenário Técnico (R$ 1.550): Executar C (R$ 350) + B (R$ 1.200) → Valida API semântica Proterol, mas posterga entrevistas de precificação.
+  + Cenário Completo (R$ 2.500): Executar C + A + D + B em 4 semanas condicionado a portões Go/No-Go do ValueCurator.
+
+** 1.3 Rastreabilidade (Fontes, Hashes SHA-256 e Incertezas)
+| Fonte ID | Módulo | Versão | SHA-256 | Link p/ Fonte |
+|---+---+---+---+---|
+| =src:repo:wordsmith= | Wordsmith | 0.4.2 | =2d41f655ba901f2b...= | [[file:///home/sukata/promptcraft/promptcraft.py][Abrir Fonte]] |
+| =src:repo:proterol= | Proterol | 1.0.0 | =8bcdd5d2765d078e...= | [[file:///home/sukata/proterol/README.md][Abrir Fonte]] |
+| =src:repo:oracle= | Oracle | 0.8.0 | =a33223a8923ec9e2...= | [[file:///home/sukata/html/NLCA_Cognitive_Dashboard.html][Abrir Fonte]] |
+| =src:repo:license_manifest= | License Manifest | 0.5.0 | =64323141e9f6e88b...= | [[file:///home/sukata/proterol/schemas/semantic_gene.json][Abrir Fonte]] |
+| =src:repo:valuecurator= | ValueCurator | 0.1.0 | =055ebfb3a32213da...= | [[file:///home/sukata/valuecurator/README.md][Abrir Fonte]] |
+| =src:repo:planner= | Planner | 0.2.0 | =400c70d7126e5b61...= | [[file:///home/sukata/governaut-os/README.md][Abrir Fonte]] |
+| =src:data:sovereign_budget= | SovereignBudget | 2026.10 | =1332ed8a84cb4892...= | [[file:///home/sukata/sovereign-budget/financas.beancount][Abrir Fonte]] |
+| =src:chatlog:compilatorum_synthesis= | Wordsmith | 2026.07 | =1cb777518000cb1b...= | [[file:///home/sukata/promptcraft/chatlog_d43ca8ed.jsonl][Abrir Fonte]] |
+| =src:exp:discovery_interviews_r1= | ValueCurator | 1.1.0 | =e97715e19ae6eb01...= | [[file:///home/sukata/ip-nft/COLOSSEUM_VALIDATION_SIMULATION_VS_INTERVIEWS_GUIDE.md][Abrir Fonte]] |
+
+* 2. Indicadores-Chave (Dados antes da Estética)
+| ID | Indicador | Valor | Natureza Epistemológica | Fontes | Significado p/ Decisão |
+|---+---+---+---+---+---|
+| =ind:efficiency_leader= | Maior Redução de Incerteza / R$ 1k | *Exp C (108.6 pts) + Exp A (93.3 pts)* pts/R$1k | =[ESTIMATIVA]= | src:exp:discovery_interviews_r1, src:repo:license_manifest | Combinação C + A exige apenas R$ 800 e destrava direitos + demanda comercial antes de escrever novo código pesado. |
+| =ind:realized_vs_committed= | Valor Realizado vs. Custo Comprometido | *R$ 3.700 / R$ 2.100* BRL | =[OBSERVADO]= | src:data:sovereign_budget, src:exp:discovery_interviews_r1 | Superávit observado de R$ 1.600 nos pilotos e grants iniciais, separado do potencial futuro estimado. |
+| =ind:phi_buffer= | Índice de Soberania Fiduciária (Φ_buffer) | *1.34* x (mín 1.20x) | =[OBSERVADO]= | src:data:sovereign_budget | Liquidez fiduciária saudável; permite alocar até R$ 1.500 neste sprint sem violar a margem de segurança. |
+| =ind:monetizable_no_chain= | Artefatos Monetizáveis Sem Blockchain | *7 de 7* artefatos | =[OBSERVADO]= | src:repo:proterol, src:repo:valuecurator, src:repo:planner | 100% dos módulos centrais geram valor via Micro-SaaS, API Semântica, CLI ou Grants sem exigir token. |
+| =ind:unclear_rights_alert= | Artefatos com Direitos Pendentes | *3* bloqueios | =[OBSERVADO]= | src:repo:license_manifest | Wordsmith (clippings), Oracle (scrapers) e SovereignBudget (dados pessoais) exigem limpeza SPDX antes de licenciamento externo. |
+| =ind:estimated_potential_warning= | Potencial Anual Estimado (Não Realizado) | *R$ 180.000* BRL/ano (Estimativa) | =[ESTIMATIVA]= | src:chatlog:compilatorum_synthesis | Estimativa agregada de mercado para apoiar priorização; nunca tratada como caixa realizado. |
+
+* 3. Portfólio de Experimentos (Matriz de Decisão)
+Ordenado por *Redução de Incerteza por Unidade de Recurso* (pts / R$ 1.000):
+
+| Rank | Código | Experimento | Etiqueta | Custo (R$) | Δ Incerteza | Eficiência (pts/R$1k) | Cabe no Orçamento? |
+|---+---+---+---+---+---+---+---|
+| 1 | *C* | C. Automatizar o registro de licenças | :PREPARAR: | R$ 350.00 | 38.0% | *108.57* | SIM |
+| 2 | *A* | A. Validar demanda por curadoria | :TESTAR: | R$ 450.00 | 42.0% | *93.33* | SIM |
+| 3 | *D* | D. Submeter dossiê técnico a Grant de P&D Open-Source | :FINANCIAR: | R$ 500.00 | 30.0% | *60.0* | SIM |
+| 4 | *B* | B. Construir uma API semântica | :VALIDAR: | R$ 1200.00 | 35.0% | *29.17* | ADIAR |
+
+** PREPARAR [C] C. Automatizar o registro de licenças — Manifestos, direitos e proveniência :preparar:
+:PROPERTIES:
+:EXPERIMENT_ID: exp:C_automatizar_registro_licencas
+:COST_BRL: 350.0
+:EFFICIENCY_PER_1K: 108.57
+:STATUS: pending
+:END:
+- *Objetivo:* Esclarecer direitos pendentes e tornar os artefatos (Wordsmith, Oracle, SovereignBudget) aptos à exploração comercial segura.
+- *Critérios de Validação:*
+  + [ ] Gerar arquivo LICENSE_MANIFEST.json assinado com SHA-256 para todos os 7 módulos do Compilatorum
+  + [ ] Isolar clippings de terceiros do Wordsmith e substituir scrapers sem SPDX no Oracle por conectores MIT
+  + [ ] Zerar o contador de gargalos jurídicos na Camada 2 antes de assinar contratos B2B
+
+** TESTAR [A] A. Validar demanda por curadoria — Entrevistas e teste de uma oferta simples :testar:
+:PROPERTIES:
+:EXPERIMENT_ID: exp:A_validar_demanda_curadoria
+:COST_BRL: 450.0
+:EFFICIENCY_PER_1K: 93.33
+:STATUS: pending
+:END:
+- *Objetivo:* Descobrir se existe um comprador imediato e qual problema específico ele pagaria para resolver com o Wordsmith + ValueCurator.
+- *Critérios de Validação:*
+  + [ ] Realizar 8 entrevistas estruturadas usando o roteiro científico do ValueCurator (/interview)
+  + [ ] Apresentar página de oferta de diagnóstico de corpus por R$ 600 e obter pelo menos 2 pré-reservas
+  + [ ] Registrar objeções reais sobre formatos de dados e confidencialidade
+
+** FINANCIAR [D] D. Submeter dossiê técnico a Grant de P&D Open-Source — Empacotamento de provas empíricas e submissão não-dilutiva :financiar:
+:PROPERTIES:
+:EXPERIMENT_ID: exp:D_submeter_grant_compilatorum
+:COST_BRL: 500.0
+:EFFICIENCY_PER_1K: 60.0
+:STATUS: pending
+:END:
+- *Objetivo:* Mobilizar financiamento não-dilutivo para o ecossistema Compilatorum usando o histórico de provas do Proterol e Governaut OS.
+- *Critérios de Validação:*
+  + [ ] Gerar dossiê técnico verificável combinando Proterol Codex + Governaut OS
+  + [ ] Submeter a 2 programas de grant de infraestrutura aberta com orçamento detalhado
+
+** VALIDAR [B] B. Construir uma API semântica — Protótipo técnico e avaliação de reutilização :validar:
+:PROPERTIES:
+:EXPERIMENT_ID: exp:B_construir_api_semantica
+:COST_BRL: 1200.0
+:EFFICIENCY_PER_1K: 29.17
+:STATUS: pending
+:END:
+- *Objetivo:* Medir se a capacidade técnica do compilador Proterol + Oracle pode ser transformada em uma oferta utilizável por terceiros.
+- *Critérios de Validação:*
+  + [ ] Expor endpoint REST/MCP determinístico que recebe um repositório e devolve o grafo semântico JSON-LD
+  + [ ] Testar reutilização em 3 projetos reais do Compilatorum com tempo de resposta < 2s
+  + [ ] Medir se 3 desenvolvedores externos conseguem integrar o SDK em menos de 15 minutos
+
+* 4. Grafo de Artefatos, Licenças e Direitos (Camada 2)
+| Artefato | Projeto | Licença SPDX | Status de Direitos | Reutilização | Sem Blockchain? |
+|---+---+---+---+---+---|
+| =art:wordsmith_ingestor= | Wordsmith | MIT (+ trechos de corpus UNCLEAR) | =unclear_pending_audit= | 8.8/10 | SIM |
+| =art:proterol_engine= | Proterol | MIT | =permissive_commercial= | 9.6/10 | SIM |
+| =art:oracle_associative= | Oracle | UNCLEAR (Mix MIT + Scrapers GPL/Third-Party) | =unclear_pending_audit= | 8.4/10 | SIM |
+| =art:license_manifest= | License Manifest | Apache-2.0 | =permissive_commercial= | 9.1/10 | SIM |
+| =art:valuecurator_core= | ValueCurator | Apache-2.0 | =permissive_commercial= | 9.3/10 | SIM |
+| =art:planner_governaut= | Planner | MIT | =permissive_commercial= | 8.9/10 | SIM |
+| =art:sovereign_budget_thermo= | SovereignBudget | UNCLEAR (Scripts MIT + Dados Pessoais Confidenciais) | =unclear_pending_audit= | 7.8/10 | SIM |
+
+* 5. Fluxo de Capital em Movimento & Plano Executável
+| Estágio | Previsto (R$) | Comprometido (R$) | Realizado (R$) | Fonte |
+|---+---+---+---+---|
+| 1. Alocação (Orçamento Soberano) | R$ 4500.00 | R$ 2100.00 | R$ 2100.00 | =src:data:sovereign_budget= |
+| 2. Execução de Experimentos | R$ 2500.00 | R$ 800.00 | R$ 650.00 | =src:exp:discovery_interviews_r1= |
+| 3. Marcos de Validação (Evidence Gates) | R$ 2000.00 | R$ 1300.00 | R$ 950.00 | =src:repo:valuecurator= |
+| 4. Resultados & Receita Validada | R$ 12000.00 | R$ 3700.00 | R$ 3700.00 | =src:exp:discovery_interviews_r1= |
+| 5. Reinvestimento no Compilatorum | R$ 3000.00 | R$ 1100.00 | R$ 1100.00 | =src:data:sovereign_budget= |
+
+** Plano Executável — Oferta de Curadoria Semântica & Higienização de Corpus (Wordsmith + ValueCurator) (Orçamento: R$ 1300.00 / 4 semanas)
+- [ ] *Semana 1* (License Manifest, R$ 350): Executar Experimento C: Auditoria de Proveniência e Limpeza SPDX -> Entregável: =LICENSE_MANIFEST.json assinado + isolamento de clippings de terceiros no Wordsmith=
+- [ ] *Semana 2* (ValueCurator, R$ 450): Executar Experimento A: 8 Entrevistas de Descoberta e Teste de Oferta Simples -> Entregável: =Relatório empírico de entrevistas (/interview) + 2 propostas comerciais enviadas=
+- [ ] *Semana 3* (Proterol & Wordsmith, R$ 300): Integrar Pipeline Wordsmith -> Proterol para Entrega Automatizada do Piloto -> Entregável: =CLI automatizado que gera o relatório executivo + grafo de ativos do cliente=
+- [ ] *Semana 4* (Planner & SovereignBudget, R$ 200): Auditoria de Resultados no Sovereign Budget e Decisão de Escala (Go/No-Go) -> Entregável: =Registro contábil Beancount do ROI do piloto e atualização do grafo no PixelCoin=
+
+* 6. Emblema Alquímico, Puxers Quantitativos & LottieMCP / CreatorMCP
+- *Inscriptio:* 🜏 VITRIOL SEMÂNTICO · CONHECIMENTO CONDENSADO EM CAPITAL AUDITÁVEL 🜏
+- *Subscriptio:* Cada Puxer Monetário (🜃/🜄) = R$ 250 | Cada Puxer Experimental (🜂) = 5% ΔIncerteza | Φ_buffer = 1.34x ≥ 1.20x | R_LE = 0.891
+- *Ressonância Lógico-Estética (R_LE):* *0.891* (Lógica=0.844, Estética=0.944, Pulso=1.69 Hz)
+- *Total de Puxers Quantitativos:* 51 puxers (Selo SHA-256: =df5890343a2732a5...=)
+
+** 6.1 Curadoria do Mar de Informações de Investimento
+| Stream ID | Categoria | Sinal Destilado | Elemento | Quantitativo |
+|---+---+---+---+---|
+| =stream:fiduciary_beancount= | macro_fiduciary | Φ_buffer = 1.34x (acima do limite mínimo de 1.20x); teto seguro de R$ 1.500/sprint. | TERRA | *3700.0* BRL_REALIZED |
+| =stream:customer_discovery_e0= | empirical_discovery | 83,3% dos compradores priorizam automação e curadoria sem blockchain; entrevistas reduzem incerteza 3,2x mais por real. | IGNIS | *42.0* PCT_UNCERTAINTY_REDUCTION |
+| =stream:semantic_genome_proterol= | technical_ip | 7 artefatos centrais com score médio de reutilização 8.84/10; Proterol (9.6) e ValueCurator (9.3) lideram sinergia. | AER | *96.0* REUSE_INDEX |
+| =stream:capital_liquidity_flow= | oracle_market | Superávit observado de R$ 1.600 nos pilotos e grants iniciais; combinação [C + A] exige apenas R$ 800. | AQUA | *2100.0* BRL_COMMITTED |
+| =stream:ip_rights_manifest= | governance_grants | Limpeza SPDX (Experimento C, R$ 350) entrega 108,57 pts de redução de incerteza por R$ 1.000. | IGNIS | *108.57* EFFICIENCY_PTS_PER_1K |
+
+** 6.2 Catálogo de Templates/Scripts LottieMCP Parametrizáveis via JSON
+| Template ID | Estrutura Infoestética | Parâmetros JSON Aceitos |
+|---+---+---|
+| =alchemical_emblem= | Emblema Alquímico de Compressão Semântica Máxima | =realized_brl, committed_brl, uncertainty_reduction_pct, synergy_score, resonance_index, pulse_frequency_hz= |
+| =radial_profile= | Gráfico Radial Dinâmico de 6 Dimensões | =opportunity_title, scores, estimated_flags= |
+| =knowledge_graph= | Grafo Semântico Orbital & Gargalos SPDX | =total_nodes, total_edges, bottlenecks_count, top_hub_score= |
+| =portfolio_mosaic= | Mosaico Quantitativo de Puxers (Realizado vs. Custo vs. Potencial) | =realized_brl, committed_brl, estimated_potential_brl, puxer_quantum_brl= |
+| =decision_matrix= | Matriz de Decisão Cinética (Evidência vs. Custo de Validação) | =experiments, budget_brl, phi_buffer= |
+| =capital_flow= | Fluxo Alquímico de Capital em 5 Estágios | =stages, phi_buffer= |
