@@ -40,7 +40,7 @@ O LLM é compositor da interface, não autoridade de acesso a dados nem executor
 
 ## 3. Envelope da resposta
 
-A resposta pode incluir prosa normal e um bloco raiz delimitado por `:::genui` e `:::`. Em hosts que exigem envelope em todas as respostas, uma resposta textual pode usar `mode: "text"`; em outros, omitir o bloco quando UI não agregar valor.
+**Contrato padrão: toda resposta do modelo deve incluir exatamente um envelope GenUI**, mesmo quando não há interface interativa a mostrar. Para respostas textuais, usar `mode: "text"` e `windows: []`. Isso permite que o host trate cada resposta de forma uniforme; a prosa Markdown permanece como fallback e conteúdo principal. Um adaptador de compatibilidade pode aceitar respostas legadas sem envelope, mas deve normalizá-las para o contrato GenUI antes de renderizar.
 
 ```markdown
 A síntese textual da resposta aparece aqui.
@@ -48,6 +48,7 @@ A síntese textual da resposta aparece aqui.
 :::genui
 version: "0.1"
 id: "pixelcoin-opportunity-review"
+mode: "interactive"
 intent: "comparar oportunidades e decidir o próximo experimento"
 surface: "workspace"
 layout: "capital-workbench"
@@ -88,7 +89,8 @@ fallback:
 
 ### 3.1 Regras do envelope
 
-- `version` e `id` são obrigatórios.
+- `version`, `id` e `mode` são obrigatórios; `mode` é `text` ou `interactive`.
+- Toda resposta deve ter um envelope; no modo `text`, usar `windows: []` e um `fallback.summary` útil.
 - `intent` declara o propósito em termos compreensíveis.
 - `surface` é uma preferência: `inline`, `workspace`, `mobile`, `emacs`, `agent`, `auto`.
 - `layout` referencia um layout registrado; nunca contém código.
@@ -355,7 +357,7 @@ Critérios iniciais: nenhuma ação desconhecida executada; schema validado para
 
 ## 15. Roadmap incremental
 
-- **P0 — Formalizar:** congelar envelope v0.1, publicar JSON Schema e mapear Pydantic atual.
+- **P0 — Formalizar:** congelar envelope v0.1, tornar o envelope obrigatório (modo text ou interactive), publicar JSON Schema e mapear Pydantic atual.
 - **P1 — Parser:** YAML seguro → UI IR; validação e testes de contrato.
 - **P2 — Multi-janela:** layout responsivo, estado compartilhado e bindings.
 - **P3 — Renderizadores:** Web/PWA, Org-mode e fallback textual; Storybook se compatível com o workspace.
