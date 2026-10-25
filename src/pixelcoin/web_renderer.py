@@ -352,7 +352,7 @@ table.data-table th {
     <button class="nav-btn" id="nav-sec-flow" onclick="switchSection('sec-flow')">5. Fluxo de Capital & Plano</button>
 
     <div class="nav-group-label">Superfícies & Controles</div>
-    <button class="nav-btn" id="nav-sec-layers" onclick="switchSection('sec-layers')">6 Camadas & Guardrails</button>
+    <button class="nav-btn" id="nav-sec-layers" onclick="switchSection('sec-layers')">GenUI-MD Workbench & 6 Camadas</button>
 
     <div class="card card-gold" style="margin-top:auto;">
       <div class="card-title"><span>Sovereign Buffer</span><span>Φ_buffer</span></div>
@@ -607,8 +607,27 @@ table.data-table th {
       </div>
     </section>
 
-    <!-- SEÇÃO 6: ARQUITETURA DE 6 CAMADAS & LOG DE DECISÕES -->
+    <!-- SEÇÃO 6: GENUI-MD WORKBENCH, MULTI-WINDOW & ARQUITETURA DE 6 CAMADAS -->
     <section id="sec-layers" class="spa-section">
+      <div class="two-col">
+        <div class="card card-gold">
+          <div class="card-title">
+            <span>GenUI-MD Multi-Window Workspace (capital-workbench)</span>
+            <span class="tag-pill tag-observed" id="genui-mode-badge">mode: interactive</span>
+          </div>
+          <div id="genui-windows-grid" style="display:grid;grid-template-columns:repeat(12, 1fr);gap:8px;margin-bottom:10px;"></div>
+          <div id="genui-links-box" class="formula-block" style="border-left-color:var(--data);"></div>
+        </div>
+
+        <div class="card card-data">
+          <div class="card-title">
+            <span>Envelope Obrigatório :::genui (Sintaxe Autorável & UI IR)</span>
+            <span class="tag-pill tag-testar">GENUI-MD v0.2</span>
+          </div>
+          <pre id="genui-serialized-pre" style="max-height:260px;overflow:auto;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:var(--font-mono);font-size:0.72rem;color:var(--accent);"></pre>
+        </div>
+      </div>
+
       <div class="two-col">
         <div class="card card-purple">
           <div class="card-title"><span>Arquitetura de 6 Camadas do PixelCoin</span><span class="tag-pill tag-observed">Verificada</span></div>
@@ -692,6 +711,40 @@ function switchSection(secId) {
   if (secId === "sec-graph") renderKnowledgeGraphSVG();
   if (secId === "sec-mosaic") renderPortfolioMosaic();
   if (secId === "sec-flow") initCapitalFlowChart();
+  if (secId === "sec-layers") initGenUIMDWorkbench();
+}
+
+function initGenUIMDWorkbench() {
+  var env = DATA.visual_payloads.genui_md_envelope;
+  var serialized = DATA.visual_payloads.genui_md_serialized || "";
+  document.getElementById("genui-serialized-pre").textContent = serialized;
+  if (!env) return;
+
+  document.getElementById("genui-mode-badge").textContent = "mode: " + env.mode + " · layout: " + env.layout;
+  var winGrid = document.getElementById("genui-windows-grid");
+  winGrid.innerHTML = "";
+  var wins = env.windows || [];
+  for (var i = 0; i < wins.length; i++) {
+    var w = wins[i];
+    var cell = document.createElement("div");
+    cell.className = "mosaic-tile";
+    cell.style.gridColumn = "span " + (w.span || 6);
+    cell.innerHTML =
+      '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.72rem;color:var(--gold);">' +
+        '<span>[' + w.id + ']</span><span>span=' + w.span + '</span>' +
+      '</div>' +
+      '<div style="font-weight:700;font-size:0.82rem;margin:2px 0;">' + w.title + '</div>' +
+      '<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--data);">component: ' + w.component + '</div>' +
+      '<div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--dim);">source: ' + w.source + '</div>';
+    winGrid.appendChild(cell);
+  }
+
+  var links = env.links || [];
+  var linkLines = ["<strong>Vínculos Reativos Multi-Janela (DAG sem ciclos):</strong>"];
+  for (var j = 0; j < links.length; j++) {
+    linkLines.push("• " + links[j].from + " ➔ " + links[j].to + " [" + links[j].event + "]");
+  }
+  document.getElementById("genui-links-box").innerHTML = linkLines.join("<br>");
 }
 
 function renderTopCompressionAndIndicators() {

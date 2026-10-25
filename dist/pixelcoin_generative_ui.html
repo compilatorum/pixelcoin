@@ -331,7 +331,7 @@ table.data-table th {
     <button class="nav-btn" id="nav-sec-flow" onclick="switchSection('sec-flow')">5. Fluxo de Capital & Plano</button>
 
     <div class="nav-group-label">Superfícies & Controles</div>
-    <button class="nav-btn" id="nav-sec-layers" onclick="switchSection('sec-layers')">6 Camadas & Guardrails</button>
+    <button class="nav-btn" id="nav-sec-layers" onclick="switchSection('sec-layers')">GenUI-MD Workbench & 6 Camadas</button>
 
     <div class="card card-gold" style="margin-top:auto;">
       <div class="card-title"><span>Sovereign Buffer</span><span>Φ_buffer</span></div>
@@ -586,8 +586,27 @@ table.data-table th {
       </div>
     </section>
 
-    <!-- SEÇÃO 6: ARQUITETURA DE 6 CAMADAS & LOG DE DECISÕES -->
+    <!-- SEÇÃO 6: GENUI-MD WORKBENCH, MULTI-WINDOW & ARQUITETURA DE 6 CAMADAS -->
     <section id="sec-layers" class="spa-section">
+      <div class="two-col">
+        <div class="card card-gold">
+          <div class="card-title">
+            <span>GenUI-MD Multi-Window Workspace (capital-workbench)</span>
+            <span class="tag-pill tag-observed" id="genui-mode-badge">mode: interactive</span>
+          </div>
+          <div id="genui-windows-grid" style="display:grid;grid-template-columns:repeat(12, 1fr);gap:8px;margin-bottom:10px;"></div>
+          <div id="genui-links-box" class="formula-block" style="border-left-color:var(--data);"></div>
+        </div>
+
+        <div class="card card-data">
+          <div class="card-title">
+            <span>Envelope Obrigatório :::genui (Sintaxe Autorável & UI IR)</span>
+            <span class="tag-pill tag-testar">GENUI-MD v0.2</span>
+          </div>
+          <pre id="genui-serialized-pre" style="max-height:260px;overflow:auto;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:var(--font-mono);font-size:0.72rem;color:var(--accent);"></pre>
+        </div>
+      </div>
+
       <div class="two-col">
         <div class="card card-purple">
           <div class="card-title"><span>Arquitetura de 6 Camadas do PixelCoin</span><span class="tag-pill tag-observed">Verificada</span></div>
@@ -8277,7 +8296,168 @@ var DATA = {
         "expected_ui": "Cronograma, tarefas, recursos, fluxo de capital e critérios de validação.",
         "representation": "capital_flow"
       }
-    ]
+    ],
+    "genui_md_envelope": {
+      "version": "0.1",
+      "id": "ui-spec-71cd77a5e33b",
+      "mode": "interactive",
+      "intent": "curate_investment_sea_and_compile_alchemical_emblem",
+      "surface": "workspace",
+      "layout": "capital-workbench",
+      "state_scope": "workspace",
+      "windows": [
+        {
+          "id": "alchemical-emblem",
+          "title": "Emblema Alquímico & Puxers",
+          "component": "alchemical.emblem",
+          "source": "portfolio.alchemical_emblem",
+          "span": 6,
+          "priority": 1,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "portfolio",
+          "title": "Mosaico do Portfólio",
+          "component": "portfolio.mosaic",
+          "source": "portfolio.opportunities",
+          "span": 6,
+          "priority": 2,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "decision",
+          "title": "Matriz de Decisão & Experimentos",
+          "component": "decision.matrix",
+          "source": "portfolio.ranked_experiments",
+          "span": 7,
+          "priority": 1,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "radial-profile",
+          "title": "Perfil Radial (6 Dimensões)",
+          "component": "chart.radial",
+          "source": "selection.opportunity_profile",
+          "span": 5,
+          "priority": 2,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "asset-graph",
+          "title": "Grafo de Ativos & Direitos SPDX",
+          "component": "graph.knowledge",
+          "source": "portfolio.asset_graph",
+          "span": 6,
+          "priority": 2,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "capital-flow",
+          "title": "Fluxo de Capital em Movimento",
+          "component": "capital.flow",
+          "source": "capital.flows",
+          "span": 6,
+          "priority": 3,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "evidence",
+          "title": "Inspeção de Evidências & Rastreabilidade",
+          "component": "evidence.inspector",
+          "source": "selection.evidence_and_rights",
+          "span": 8,
+          "priority": 1,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        },
+        {
+          "id": "next-actions",
+          "title": "Fila de Tarefas Executáveis",
+          "component": "task.queue",
+          "source": "plan.next_actions",
+          "span": 4,
+          "priority": 2,
+          "props": {},
+          "state": {},
+          "provenance": {}
+        }
+      ],
+      "links": [
+        {
+          "from": "portfolio.selection",
+          "to": "decision.selection",
+          "event": "selection.changed"
+        },
+        {
+          "from": "decision.selection",
+          "to": "radial-profile.target",
+          "event": "selection.changed"
+        },
+        {
+          "from": "asset-graph.selection",
+          "to": "evidence.target",
+          "event": "selection.changed"
+        },
+        {
+          "from": "alchemical-emblem.lottie_params",
+          "to": "portfolio.filter",
+          "event": "lottie.parameterized"
+        }
+      ],
+      "actions": [
+        {
+          "id": "opportunity.simulate",
+          "label": "Simular Alocação de Orçamento",
+          "kind": "invoke",
+          "permission": "capital:simulate",
+          "confirmation": "none"
+        },
+        {
+          "id": "lottie.parameterize",
+          "label": "Parametrizar Infográfico Lottie via JSON",
+          "kind": "invoke",
+          "permission": "lottie:parameterize",
+          "confirmation": "none"
+        },
+        {
+          "id": "rights.audit",
+          "label": "Aprovar Limpeza de Licenças SPDX",
+          "kind": "mutate",
+          "permission": "rights:audit",
+          "confirmation": "required"
+        },
+        {
+          "id": "treasury.allocate",
+          "label": "Confirmar Alocação e Registrar Experimento",
+          "kind": "mutate",
+          "permission": "capital:allocate",
+          "confirmation": "required"
+        }
+      ],
+      "fallback": {
+        "mode": "markdown",
+        "summary": "Mar de informações de investimento condensado em 52 Puxers Quantitativos e 1 Emblema Alquímico com Ressonância Lógico-Estética R_LE = 0.85."
+      },
+      "provenance": {
+        "show_sources": true,
+        "show_as_of": true,
+        "distinguish_observed_estimated_simulated": true
+      }
+    },
+    "genui_md_serialized": "# Emblema Alquímico de Compressão Máxima, Puxers Quantitativos & LottieMCP\n\n**Sinal Principal:** Mar de informações de investimento condensado em 52 Puxers Quantitativos e 1 Emblema Alquímico com Ressonância Lógico-Estética R_LE = 0.85.\n\n- **Ação Prioritária:** Cada Puxer Monetário (🜃 Terra / 🜄 Aqua) = R$ 250; cada Puxer Experimental (🜂 Ignis) = 5% ΔIncerteza; 6 templates LottieMCP prontos para parametrização via JSON.\n- **Anomalia / Gargalo:** Equilíbrio harmônico entre Valor Realizado (15 puxers 🜃) e Capital Comprometido (8 puxers 🜄) aproxima-se da razão áurea φ = 1.618.\n- **Transparência Epistemológica:** Transparência Epistemológica: Das 18 dimensões avaliadas nos gráficos radiais do portfólio, 14 baseiam-se em evidências empíricas observadas nos repositórios/entrevistas e 4 são estimativas explícitas que exigem experimentos de validação.\n\n:::genui\nversion: \"0.1\"\nid: \"ui-spec-71cd77a5e33b\"\nmode: \"interactive\"\nintent: \"curate_investment_sea_and_compile_alchemical_emblem\"\nsurface: \"workspace\"\nlayout: \"capital-workbench\"\nstate_scope: \"workspace\"\nwindows:\n  - id: \"alchemical-emblem\"\n    title: \"Emblema Alquímico & Puxers\"\n    component: \"alchemical.emblem\"\n    source: \"portfolio.alchemical_emblem\"\n    span: 6\n    priority: 1\n  - id: \"portfolio\"\n    title: \"Mosaico do Portfólio\"\n    component: \"portfolio.mosaic\"\n    source: \"portfolio.opportunities\"\n    span: 6\n    priority: 2\n  - id: \"decision\"\n    title: \"Matriz de Decisão & Experimentos\"\n    component: \"decision.matrix\"\n    source: \"portfolio.ranked_experiments\"\n    span: 7\n    priority: 1\n  - id: \"radial-profile\"\n    title: \"Perfil Radial (6 Dimensões)\"\n    component: \"chart.radial\"\n    source: \"selection.opportunity_profile\"\n    span: 5\n    priority: 2\n  - id: \"asset-graph\"\n    title: \"Grafo de Ativos & Direitos SPDX\"\n    component: \"graph.knowledge\"\n    source: \"portfolio.asset_graph\"\n    span: 6\n    priority: 2\n  - id: \"capital-flow\"\n    title: \"Fluxo de Capital em Movimento\"\n    component: \"capital.flow\"\n    source: \"capital.flows\"\n    span: 6\n    priority: 3\n  - id: \"evidence\"\n    title: \"Inspeção de Evidências & Rastreabilidade\"\n    component: \"evidence.inspector\"\n    source: \"selection.evidence_and_rights\"\n    span: 8\n    priority: 1\n  - id: \"next-actions\"\n    title: \"Fila de Tarefas Executáveis\"\n    component: \"task.queue\"\n    source: \"plan.next_actions\"\n    span: 4\n    priority: 2\nlinks:\n  - from: \"portfolio.selection\"\n    to: \"decision.selection\"\n    event: \"selection.changed\"\n  - from: \"decision.selection\"\n    to: \"radial-profile.target\"\n    event: \"selection.changed\"\n  - from: \"asset-graph.selection\"\n    to: \"evidence.target\"\n    event: \"selection.changed\"\n  - from: \"alchemical-emblem.lottie_params\"\n    to: \"portfolio.filter\"\n    event: \"lottie.parameterized\"\nactions:\n  - id: \"opportunity.simulate\"\n    label: \"Simular Alocação de Orçamento\"\n    kind: \"invoke\"\n    permission: \"capital:simulate\"\n    confirmation: \"none\"\n  - id: \"lottie.parameterize\"\n    label: \"Parametrizar Infográfico Lottie via JSON\"\n    kind: \"invoke\"\n    permission: \"lottie:parameterize\"\n    confirmation: \"none\"\n  - id: \"rights.audit\"\n    label: \"Aprovar Limpeza de Licenças SPDX\"\n    kind: \"mutate\"\n    permission: \"rights:audit\"\n    confirmation: \"required\"\n  - id: \"treasury.allocate\"\n    label: \"Confirmar Alocação e Registrar Experimento\"\n    kind: \"mutate\"\n    permission: \"capital:allocate\"\n    confirmation: \"required\"\nfallback:\n  mode: \"markdown\"\n  summary: \"Mar de informações de investimento condensado em 52 Puxers Quantitativos e 1 Emblema Alquímico com Ressonância Lógico-Estética R_LE = 0.85.\"\nprovenance:\n  show_sources: true\n  show_as_of: true\n  distinguish_observed_estimated_simulated: true\n:::\n"
   },
   "allowed_actions": [
     {
@@ -8407,6 +8587,40 @@ function switchSection(secId) {
   if (secId === "sec-graph") renderKnowledgeGraphSVG();
   if (secId === "sec-mosaic") renderPortfolioMosaic();
   if (secId === "sec-flow") initCapitalFlowChart();
+  if (secId === "sec-layers") initGenUIMDWorkbench();
+}
+
+function initGenUIMDWorkbench() {
+  var env = DATA.visual_payloads.genui_md_envelope;
+  var serialized = DATA.visual_payloads.genui_md_serialized || "";
+  document.getElementById("genui-serialized-pre").textContent = serialized;
+  if (!env) return;
+
+  document.getElementById("genui-mode-badge").textContent = "mode: " + env.mode + " · layout: " + env.layout;
+  var winGrid = document.getElementById("genui-windows-grid");
+  winGrid.innerHTML = "";
+  var wins = env.windows || [];
+  for (var i = 0; i < wins.length; i++) {
+    var w = wins[i];
+    var cell = document.createElement("div");
+    cell.className = "mosaic-tile";
+    cell.style.gridColumn = "span " + (w.span || 6);
+    cell.innerHTML =
+      '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.72rem;color:var(--gold);">' +
+        '<span>[' + w.id + ']</span><span>span=' + w.span + '</span>' +
+      '</div>' +
+      '<div style="font-weight:700;font-size:0.82rem;margin:2px 0;">' + w.title + '</div>' +
+      '<div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--data);">component: ' + w.component + '</div>' +
+      '<div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--dim);">source: ' + w.source + '</div>';
+    winGrid.appendChild(cell);
+  }
+
+  var links = env.links || [];
+  var linkLines = ["<strong>Vínculos Reativos Multi-Janela (DAG sem ciclos):</strong>"];
+  for (var j = 0; j < links.length; j++) {
+    linkLines.push("• " + links[j].from + " ➔ " + links[j].to + " [" + links[j].event + "]");
+  }
+  document.getElementById("genui-links-box").innerHTML = linkLines.join("<br>");
 }
 
 function renderTopCompressionAndIndicators() {

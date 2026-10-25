@@ -1,8 +1,8 @@
 # GenUI-MD — Especificação de Markdown para Interfaces Generativas
 
-- **Status:** Draft experimental
-- **Versão:** 0.1.0
-- **Projeto de referência:** PixelCoin
+- **Status:** Implementado & Verificado (Runtime v0.2.0 + JSON Schema + Adaptador PixelCoin)
+- **Versão:** 0.2.0
+- **Projeto de referência:** PixelCoin (`src/pixelcoin/genui_md.py`)
 - **Ecossistema:** Compilatorum
 - **Princípio:** Prompt as the new frontend; Markdown as authoring syntax; declarative UI as the interchange contract.
 
@@ -130,6 +130,7 @@ O runtime só pode renderizar componentes efetivamente registrados.
 | Texto | `text.summary`, `text.markdown`, `text.diff` | Síntese, documentação, comparação. |
 | Dados | `data.table`, `data.metric`, `data.timeline` | Tabelas, indicadores, cronologia. |
 | Visualização | `chart.radial`, `chart.line`, `chart.bar`, `chart.scatter`, `portfolio.mosaic` | Infoestética e dados quantitativos. |
+| Infoestética Alquímica & Lottie | `alchemical.emblem`, `puxer.matrix`, `lottie.infographic` | Compressão máxima em emblemas vetoriais SVG, puxers quantitativos (🜃, 🜄, 🜂, 🜁), Ressonância Lógico-Estética ($\mathcal{R}_{LE}$) e animações Lottie parametrizáveis via JSON (`LottieMCP`). |
 | Conhecimento | `graph.knowledge`, `graph.dependencies`, `evidence.inspector` | Relações, dependências, fontes. |
 | Decisão | `decision.matrix`, `scenario.compare`, `risk.register` | Alternativas, cenários e riscos. |
 | Capital | `capital.flow`, `treasury.summary`, `budget.allocation` | Orçamento, fluxo, resultados observados. |
@@ -152,6 +153,7 @@ Layouts registrados propostos:
 - `developer-workbench`: código + testes + dependências + terminal lógico.
 - `research-workbench`: hipótese + método + evidências + resultados.
 - `agent-workbench`: conversa + plano + ferramentas + eventos.
+- `alchemical-workbench`: emblema alquímico SVG + matriz de puxers quantitativos + parametrizador JSON LottieMCP + curadoria do mar de informações.
 - `freeform`: posições livres, apenas em renderizadores com suporte geométrico.
 
 ### Responsividade
@@ -325,16 +327,20 @@ Este exemplo é uma composição declarativa; não contém saldos reais nem auto
 
 A implementação PixelCoin já contém uma especificação declarativa na Camada 5 e renderizadores na Camada 6. GenUI-MD deve ser uma camada de autoria/intercâmbio sobre eles, não uma reescrita automática.
 
-| GenUI-MD | Ponto de integração existente |
+| GenUI-MD | Ponto de integração implementado no PixelCoin |
 |---|---|
+| Parser, Validador & UI IR | `GenUIMDParser`, `GenUIEnvelope`, `GenUIDocument` em `src/pixelcoin/genui_md.py` |
+| Adaptador Bidirecional | `GenUIMDAdapter.from_declarative_spec` / `to_declarative_spec` em `src/pixelcoin/genui_md.py` |
+| Sincronização Multi-Janela | `GenUIWorkspaceRuntime` (propagação de eventos e detecção de ciclos em DAG) |
+| Schema Formal Publicado | `schemas/genui_md_envelope.schema.json` e `schemas/pixelcoin_ui_spec.schema.json` |
 | UI IR / manifesto normalizado | `DeclarativeUISpecification` em `layer5_ui_spec.py` |
-| Catálogo de componentes | `VisualRepresentationType` e futuros registries |
+| Catálogo de componentes | `REGISTERED_COMPONENTS` + `VisualRepresentationType` |
 | Intenção e perspectiva | `layer4_orchestrator.py` |
-| Web renderer | `web_renderer.py` / `layer6_renderers.py` |
+| Web renderer | `web_renderer.py` / `layer6_renderers.py` (inclui aba GenUI-MD Workbench) |
 | Emacs/Org | `EmacsOrgRenderer` |
-| Guardrails | `ALLOWED_DECLARATIVE_ACTIONS` e validação |
-| Animações e vetores | templates Lottie/SVG existentes |
-| Ferramentas | `mcp_server.py`, apenas para ações registradas/autorizadas |
+| Guardrails | `ALLOWED_DECLARATIVE_ACTIONS`, `REGISTERED_ACTIONS` e validação de mutações |
+| Animações, Emblemas e Vetores | `alchemical_infoaesthetics.py` e `lottie_templates.py` |
+| Ferramentas MCP | `mcp_server.py` (`LottieMCP` / `CreatorMCP`), apenas para ações registradas/autorizadas |
 
 Criar adaptadores explícitos; não presumir que os campos dos exemplos já existem no código.
 

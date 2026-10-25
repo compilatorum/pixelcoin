@@ -19,6 +19,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Any
 
+from pixelcoin.genui_md import GenUIMDAdapter, GenUIMDParser, GenUIValidationError
 from pixelcoin.layer4_orchestrator import CANONICAL_PROMPTS, PixelCoinOrchestrator
 from pixelcoin.layer5_ui_spec import (
     ALLOWED_DECLARATIVE_ACTIONS,
@@ -80,19 +81,25 @@ class PixelCoinHTTPHandler(BaseHTTPRequestHandler):
         if self.path == "/api/mcp/tools":
             self._send_json(200, {"tools": MCP_BRIDGE.list_tools()})
             return
+        if self.path == "/api/genui-md":
+            genui_md = spec.visual_payloads.get("genui_md_serialized", "")
+            self._send_text(200, genui_md, "text/markdown; charset=utf-8")
+            return
         self._send_json(
             200,
             {
-                "service": "PixelCoin Generative UI, Alchemical Emblems & LottieMCP Server",
-                "version": "0.4.0",
+                "service": "PixelCoin Generative UI, GenUI-MD, Alchemical Emblems & LottieMCP Server",
+                "version": "0.5.0",
                 "endpoints": [
                     "GET /",
                     "GET /api/spec",
+                    "GET /api/genui-md",
                     "GET /api/org",
                     "GET /api/mobile",
                     "GET /api/agent",
                     "GET /api/mcp/tools",
                     "POST /api/prompt",
+                    "POST /api/genui-md/validate",
                     "POST /api/simulate",
                     "POST /api/lottie/parameterize",
                     "POST /api/mcp/call",
@@ -149,6 +156,22 @@ class PixelCoinHTTPHandler(BaseHTTPRequestHandler):
                 self._send_json(200, res)
                 return
 
+            if self.path == "/api/genui-md/validate":
+                markdown_text = body.get("markdown", "")
+                allow_legacy = bool(body.get("allow_legacy_normalization", False))
+                doc = GenUIMDParser.parse(markdown_text, allow_legacy_normalization=allow_legacy)
+                adapted_spec = GenUIMDAdapter.to_declarative_spec(doc)
+                self._send_json(
+                    200,
+                    {
+                        "valid": True,
+                        "document": doc.model_dump(mode="json", by_alias=True),
+                        "declarative_ui_spec_id": adapted_spec.spec_id,
+                        "primary_representation": adapted_spec.primary_representation.value,
+                    },
+                )
+                return
+
             if self.path == "/api/action":
                 action_type = body.get("action_type", "")
                 if action_type in FORBIDDEN_UNCONTROLLED_OPERATIONS or action_type not in ALLOWED_DECLARATIVE_ACTIONS:
@@ -197,7 +220,7 @@ class PixelCoinHTTPHandler(BaseHTTPRequestHandler):
                 return
 
             self._send_json(404, {"error": "Endpoint not found"})
-        except PixelCoinGuardrailError as exc:
+        except (PixelCoinGuardrailError, GenUIValidationError) as exc:
             self._send_json(403, {"guardrail_blocked": True, "detail": str(exc)})
         except Exception as exc:
             self._send_json(400, {"error": str(exc)})

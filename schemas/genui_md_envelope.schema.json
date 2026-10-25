@@ -1,0 +1,286 @@
+{
+  "$defs": {
+    "GenUIAction": {
+      "description": "Ação controlada declarada no envelope GenUI-MD (Seção 8).",
+      "properties": {
+        "id": {
+          "description": "ID da ação no catálogo registrado",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "kind": {
+          "description": "invoke | mutate",
+          "title": "Kind",
+          "type": "string"
+        },
+        "permission": {
+          "description": "Escopo de permissão exigido (ex: capital:simulate)",
+          "minLength": 1,
+          "title": "Permission",
+          "type": "string"
+        },
+        "confirmation": {
+          "default": "none",
+          "description": "none | required",
+          "title": "Confirmation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "permission"
+      ],
+      "title": "GenUIAction",
+      "type": "object"
+    },
+    "GenUIFallback": {
+      "description": "Alternativa legível obrigatória para ambientes sem suporte gráfico (Seção 3).",
+      "properties": {
+        "mode": {
+          "default": "markdown",
+          "title": "Mode",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Resumo legível em texto puro/Markdown",
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "summary"
+      ],
+      "title": "GenUIFallback",
+      "type": "object"
+    },
+    "GenUILink": {
+      "description": "Vínculo reativo de estado/evento entre janelas (Seção 7).",
+      "properties": {
+        "from": {
+          "description": "Origem no formato window_id.propriedade",
+          "title": "From",
+          "type": "string"
+        },
+        "to": {
+          "description": "Destino no formato window_id.propriedade",
+          "title": "To",
+          "type": "string"
+        },
+        "event": {
+          "description": "Nome simbólico do evento registrado",
+          "title": "Event",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "event"
+      ],
+      "title": "GenUILink",
+      "type": "object"
+    },
+    "GenUIMode": {
+      "enum": [
+        "text",
+        "interactive"
+      ],
+      "title": "GenUIMode",
+      "type": "string"
+    },
+    "GenUIProvenancePolicy": {
+      "description": "Política de exibição de proveniência e distinção epistemológica (Seção 10/12).",
+      "properties": {
+        "show_sources": {
+          "default": true,
+          "title": "Show Sources",
+          "type": "boolean"
+        },
+        "show_as_of": {
+          "default": true,
+          "title": "Show As Of",
+          "type": "boolean"
+        },
+        "distinguish_observed_estimated_simulated": {
+          "default": true,
+          "title": "Distinguish Observed Estimated Simulated",
+          "type": "boolean"
+        }
+      },
+      "title": "GenUIProvenancePolicy",
+      "type": "object"
+    },
+    "GenUIStateScope": {
+      "enum": [
+        "local",
+        "window",
+        "workspace",
+        "conversation",
+        "persistent"
+      ],
+      "title": "GenUIStateScope",
+      "type": "string"
+    },
+    "GenUISurface": {
+      "enum": [
+        "inline",
+        "workspace",
+        "mobile",
+        "emacs",
+        "agent",
+        "auto"
+      ],
+      "title": "GenUISurface",
+      "type": "string"
+    },
+    "GenUIWindow": {
+      "description": "Unidade lógica de janela no workspace GenUI-MD (Seção 4).",
+      "properties": {
+        "id": {
+          "description": "ID único da janela no workspace",
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "description": "Título legível da janela",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "component": {
+          "description": "ID de componente registrado no catálogo (ex: chart.radial)",
+          "title": "Component",
+          "type": "string"
+        },
+        "source": {
+          "description": "Referência simbólica a dados autorizados",
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "span": {
+          "default": 6,
+          "description": "Largura relativa na grade de 12 colunas",
+          "maximum": 12,
+          "minimum": 1,
+          "title": "Span",
+          "type": "integer"
+        },
+        "priority": {
+          "default": 1,
+          "description": "Prioridade para degradação responsiva",
+          "maximum": 10,
+          "minimum": 1,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "props": {
+          "additionalProperties": true,
+          "title": "Props",
+          "type": "object"
+        },
+        "state": {
+          "additionalProperties": true,
+          "title": "State",
+          "type": "object"
+        },
+        "provenance": {
+          "additionalProperties": true,
+          "title": "Provenance",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "component",
+        "source"
+      ],
+      "title": "GenUIWindow",
+      "type": "object"
+    }
+  },
+  "description": "Contrato canônico do bloco `:::genui ... :::` (UI IR — Seção 3 de `docs/GENUI-MD-SPEC.md`).",
+  "properties": {
+    "version": {
+      "default": "0.1",
+      "description": "Versão do contrato GenUI-MD",
+      "title": "Version",
+      "type": "string"
+    },
+    "id": {
+      "description": "Identificador único da instância de resposta/workspace",
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "mode": {
+      "$ref": "#/$defs/GenUIMode",
+      "description": "text | interactive (obrigatório em toda resposta)"
+    },
+    "intent": {
+      "description": "Propósito compreensível da interface/resposta",
+      "minLength": 1,
+      "title": "Intent",
+      "type": "string"
+    },
+    "surface": {
+      "$ref": "#/$defs/GenUISurface",
+      "default": "workspace"
+    },
+    "layout": {
+      "default": "capital-workbench",
+      "description": "ID de layout registrado",
+      "title": "Layout",
+      "type": "string"
+    },
+    "state_scope": {
+      "$ref": "#/$defs/GenUIStateScope",
+      "default": "conversation"
+    },
+    "windows": {
+      "items": {
+        "$ref": "#/$defs/GenUIWindow"
+      },
+      "title": "Windows",
+      "type": "array"
+    },
+    "links": {
+      "items": {
+        "$ref": "#/$defs/GenUILink"
+      },
+      "title": "Links",
+      "type": "array"
+    },
+    "actions": {
+      "items": {
+        "$ref": "#/$defs/GenUIAction"
+      },
+      "title": "Actions",
+      "type": "array"
+    },
+    "fallback": {
+      "$ref": "#/$defs/GenUIFallback"
+    },
+    "provenance": {
+      "$ref": "#/$defs/GenUIProvenancePolicy"
+    }
+  },
+  "required": [
+    "id",
+    "mode",
+    "intent",
+    "fallback"
+  ],
+  "title": "GenUIEnvelope",
+  "type": "object"
+}

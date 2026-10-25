@@ -290,3 +290,184 @@ def test_lottiemcp_and_creatormcp_parameterization(tmp_path) -> None:
     assert (lottie_dir / "alchemical_emblem.svg").exists()
     assert (lottie_dir / "alchemical_emblem.lottie.json").exists()
     assert (lottie_dir / "decision_matrix.lottie.json").exists()
+
+
+def test_genui_md_parser_validation_and_security() -> None:
+    from pixelcoin.genui_md import (
+        GenUIMDParser,
+        GenUIMode,
+        GenUIValidationError,
+    )
+
+    valid_md = """A síntese textual da resposta aparece aqui.
+
+:::genui
+version: "0.1"
+id: "pixelcoin-opportunity-review"
+mode: "interactive"
+intent: "comparar oportunidades e decidir o próximo experimento"
+surface: "workspace"
+layout: "capital-workbench"
+state_scope: "conversation"
+windows:
+  - id: "portfolio"
+    title: "Portfólio"
+    component: "portfolio.mosaic"
+    source: "portfolio.opportunities"
+    span: 7
+  - id: "decision"
+    title: "Decisão"
+    component: "decision.matrix"
+    source: "portfolio.opportunities"
+    span: 5
+  - id: "evidence"
+    title: "Evidências"
+    component: "evidence.inspector"
+    source: "selection.evidence"
+    span: 8
+  - id: "actions"
+    title: "Próximas ações"
+    component: "task.queue"
+    source: "plan.next_actions"
+    span: 4
+links:
+  - from: "portfolio.selection"
+    to: "decision.selection"
+    event: "selection.changed"
+  - from: "decision.selection"
+    to: "evidence.target"
+    event: "selection.changed"
+fallback:
+  mode: "markdown"
+  summary: "Comparar oportunidades, inspecionar evidências e escolher um experimento."
+:::
+"""
+    doc = GenUIMDParser.parse(valid_md)
+    assert doc.envelope.id == "pixelcoin-opportunity-review"
+    assert doc.envelope.mode == GenUIMode.INTERACTIVE
+    assert len(doc.envelope.windows) == 4
+    assert len(doc.envelope.links) == 2
+
+    # Modo texto puro exige windows: []
+    text_md = """Resposta puramente textual.
+
+:::genui
+version: "0.1"
+id: "simple-text-response"
+mode: "text"
+intent: "explicar conceito"
+windows: []
+fallback:
+  mode: "markdown"
+  summary: "Explicação direta em texto."
+:::
+"""
+    text_doc = GenUIMDParser.parse(text_md)
+    assert text_doc.envelope.mode == GenUIMode.TEXT
+    assert text_doc.envelope.windows == []
+
+    # Normalização de resposta legada sem envelope
+    legacy_doc = GenUIMDParser.parse("# Resposta Legada\nTexto sem bloco.", allow_legacy_normalization=True)
+    assert legacy_doc.envelope.mode == GenUIMode.TEXT
+    assert legacy_doc.envelope.windows == []
+
+    # Rejeita ciclo em links (A -> B -> A)
+    cyclic_md = """Prosa.
+
+:::genui
+version: "0.1"
+id: "cyclic-test"
+mode: "interactive"
+intent: "teste de ciclo"
+windows:
+  - id: "winA"
+    title: "A"
+    component: "portfolio.mosaic"
+    source: "s.a"
+  - id: "winB"
+    title: "B"
+    component: "decision.matrix"
+    source: "s.b"
+links:
+  - from: "winA.sel"
+    to: "winB.sel"
+    event: "selection.changed"
+  - from: "winB.sel"
+    to: "winA.sel"
+    event: "selection.changed"
+fallback:
+  mode: "markdown"
+  summary: "Resumo."
+:::
+"""
+    with pytest.raises(GenUIValidationError, match="Ciclo"):
+        GenUIMDParser.parse(cyclic_md)
+
+    # Rejeita ação mutável sem confirmation: "required"
+    unconfirmed_mutate_md = """Prosa.
+
+:::genui
+version: "0.1"
+id: "unsafe-mutate"
+mode: "interactive"
+intent: "teste"
+windows:
+  - id: "w1"
+    title: "W1"
+    component: "treasury.summary"
+    source: "capital.snap"
+actions:
+  - id: "treasury.allocate"
+    label: "Alocar sem confirmação"
+    kind: "mutate"
+    permission: "capital:allocate"
+    confirmation: "none"
+fallback:
+  mode: "markdown"
+  summary: "Resumo."
+:::
+"""
+    with pytest.raises(GenUIValidationError, match="confirmation='required'"):
+        GenUIMDParser.parse(unconfirmed_mutate_md)
+
+    # Rejeita tags YAML perigosas (!!python) ou JS inline
+    with pytest.raises(GenUIValidationError, match="Segurança"):
+        GenUIMDParser.parse(":::genui\n!!python/object:os.system\n:::\n")
+
+
+def test_genui_md_adapter_multi_window_runtime_and_cli(tmp_path) -> None:
+    from pixelcoin.genui_md import (
+        GenUIMDAdapter,
+        GenUIMDParser,
+        GenUIWorkspaceRuntime,
+    )
+
+    orch = PixelCoinOrchestrator()
+    spec = orch.generate_ui_spec(
+        "Condense o mar de informações de investimento em um Emblema Alquímico com puxers quantitativos, vetores e Lottie."
+    )
+
+    doc = GenUIMDAdapter.from_declarative_spec(spec)
+    assert len(doc.envelope.windows) == 8
+    assert doc.envelope.windows[0].component == "alchemical.emblem"
+
+    # Testa propagação de eventos no runtime multi-janela
+    runtime = GenUIWorkspaceRuntime(doc.envelope)
+    updates = runtime.dispatch_event("portfolio.selection", "selection.changed", "opp:curadoria_corpus_b2b")
+    assert ("decision", "selection", "opp:curadoria_corpus_b2b") in updates
+    assert runtime.window_states["decision"]["selection"] == "opp:curadoria_corpus_b2b"
+
+    # Serializa para GenUI-MD, re-parseia e converte de volta para DeclarativeUISpecification
+    serialized = GenUIMDParser.serialize(doc)
+    reparsed = GenUIMDParser.parse(serialized)
+    roundtrip_spec = GenUIMDAdapter.to_declarative_spec(reparsed)
+    assert roundtrip_spec.primary_representation == VisualRepresentationType.ALCHEMICAL_EMBLEM
+
+    # Testa CLI genui (--export-schema, --output, --validate-file)
+    schema_file = tmp_path / "genui.schema.json"
+    md_file = tmp_path / "workspace.genui.md"
+    assert cli_main(["genui", "--export-schema", str(schema_file)]) == 0
+    assert cli_main(["genui", "--output", str(md_file)]) == 0
+    assert cli_main(["genui", "--validate-file", str(md_file)]) == 0
+    assert schema_file.exists()
+    assert md_file.exists()

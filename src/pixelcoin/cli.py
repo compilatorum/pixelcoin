@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 from typing import List, Optional
 
+from pixelcoin.genui_md import GenUIEnvelope, GenUIMDAdapter, GenUIMDParser, GenUIMode
 from pixelcoin.layer4_orchestrator import CANONICAL_PROMPTS, PixelCoinOrchestrator
 from pixelcoin.layer5_ui_spec import PersonaPerspective
 from pixelcoin.layer6_renderers import (
@@ -58,12 +59,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     )
 
     # Subcomando: render
-    p_render = sub.add_parser("render", help="Renderiza a interface para Web, Emacs Org-mode, Mobile ou Agentes")
+    p_render = sub.add_parser("render", help="Renderiza a interface para Web, Emacs Org-mode, GenUI-MD, Mobile ou Agentes")
     p_render.add_argument(
         "--surface",
-        choices=["web", "org", "mobile", "agent"],
+        choices=["web", "org", "genui-md", "mobile", "agent"],
         default="org",
-        help="Ambiente alvo de renderização (Camada 6)",
+        help="Ambiente alvo de renderização (Camada 6 / GenUI-MD)",
     )
     p_render.add_argument(
         "--prompt",
@@ -107,6 +108,15 @@ def main(argv: Optional[List[str]] = None) -> int:
     p_mcp = sub.add_parser("mcp", help="Inicia o servidor LottieMCP / CreatorMCP via stdio ou lista ferramentas")
     p_mcp.add_argument("--list-tools", action="store_true", help="Lista os schemas das ferramentas LottieMCP / CreatorMCP")
 
+    # Subcomando: genui
+    p_genui = sub.add_parser("genui", help="Gera, valida ou exporta o JSON Schema da especificação GenUI-MD")
+    p_genui.add_argument("--prompt", default=CANONICAL_PROMPTS[0]["prompt"], help="Prompt para compor o documento GenUI-MD")
+    p_genui.add_argument("--mode", choices=["text", "interactive"], default="interactive", help="Modo do envelope GenUI-MD")
+    p_genui.add_argument("--layout", default="capital-workbench", help="Layout multi-janela registrado")
+    p_genui.add_argument("--validate-file", help="Valida um arquivo .md contendo um bloco :::genui")
+    p_genui.add_argument("--export-schema", help="Exporta o JSON Schema formal do envelope GenUI-MD para o arquivo indicado")
+    p_genui.add_argument("--output", help="Salva a saída GenUI-MD gerada em arquivo")
+
     args = parser.parse_args(argv)
     orchestrator = PixelCoinOrchestrator()
     mcp_bridge = PixelCoinMCPBridge()
@@ -129,6 +139,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             rendered = WebGenerativeRenderer.render_html(spec)
         elif args.surface == "org":
             rendered = EmacsOrgRenderer.render(spec)
+        elif args.surface == "genui-md":
+            rendered = spec.visual_payloads.get("genui_md_serialized", "")
         elif args.surface == "mobile":
             rendered = json.dumps(MobileMicroRenderer.render(spec), ensure_ascii=False, indent=2)
         else:
@@ -165,6 +177,50 @@ def main(argv: Optional[List[str]] = None) -> int:
             print(json.dumps({"tools": mcp_bridge.list_tools()}, ensure_ascii=False, indent=2))
             return 0
         run_stdio_mcp_server()
+        return 0
+
+    if args.command == "genui":
+        if args.export_schema:
+            schema_path = Path(args.export_schema)
+            schema_path.parent.mkdir(parents=True, exist_ok=True)
+            schema_json = json.dumps(GenUIEnvelope.model_json_schema(by_alias=True), ensure_ascii=False, indent=2)
+            schema_path.write_text(schema_json, encoding="utf-8")
+            print(f"[PixelCoin GenUI-MD] JSON Schema exportado em: {schema_path}")
+            return 0
+        if args.validate_file:
+            md_content = Path(args.validate_file).read_text(encoding="utf-8")
+            doc = GenUIMDParser.parse(md_content)
+            adapted = GenUIMDAdapter.to_declarative_spec(doc)
+            print(
+                json.dumps(
+                    {
+                        "valid": True,
+                        "id": doc.envelope.id,
+                        "mode": doc.envelope.mode.value,
+                        "windows_count": len(doc.envelope.windows),
+                        "links_count": len(doc.envelope.links),
+                        "adapted_spec_id": adapted.spec_id,
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
+            return 0
+
+        spec = orchestrator.generate_ui_spec(prompt=args.prompt)
+        doc = GenUIMDAdapter.from_declarative_spec(
+            spec,
+            mode=GenUIMode(args.mode),
+            layout=args.layout,
+        )
+        serialized = GenUIMDParser.serialize(doc)
+        if args.output:
+            out_p = Path(args.output)
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            out_p.write_text(serialized, encoding="utf-8")
+            print(f"[PixelCoin GenUI-MD] Documento salvo em: {out_p}")
+        else:
+            print(serialized)
         return 0
 
     return 0

@@ -441,7 +441,7 @@ class PixelCoinOrchestrator:
         ]
 
         spec_hash = hashlib.sha256(f"{prompt}:{perspective.value}:{primary_rep.value}".encode("utf-8")).hexdigest()[:12]
-        return DeclarativeUISpecification(
+        spec = DeclarativeUISpecification(
             spec_id=f"ui-spec-{spec_hash}",
             prompt=prompt,
             interpreted_intent=intent,
@@ -454,6 +454,12 @@ class PixelCoinOrchestrator:
             visual_payloads=visual_payloads,
             allowed_actions=allowed_actions,
         )
+        from pixelcoin.genui_md import GenUIMDAdapter, GenUIMDParser
+
+        genui_doc = GenUIMDAdapter.from_declarative_spec(spec)
+        spec.visual_payloads["genui_md_envelope"] = genui_doc.envelope.model_dump(mode="json", by_alias=True)
+        spec.visual_payloads["genui_md_serialized"] = GenUIMDParser.serialize(genui_doc)
+        return spec
 
     def _build_instant_view_by_intent(
         self,
