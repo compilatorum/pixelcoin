@@ -475,6 +475,6 @@ class SemanticKnowledgeGraph:
             )
         )
         for edge in self.edges:
-            if edge.target_artifact_id == artifact_id and edge.relation == RelationType.AUDITS_RIGHTS_OF:
+            if edge.target_artifact_id == artifact_id or edge.source_artifact_id == artifact_id:
                 edge.is_bottleneck = False
         return node

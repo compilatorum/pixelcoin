@@ -1,0 +1,362 @@
+{
+  "project": "compilatorum/pixelcoin",
+  "version": "0.5.0",
+  "baseline_spec_id": "ui-spec-71cd77a5e33b",
+  "lifecycle_events": [
+    {
+      "event": "resolve_artifact_rights",
+      "artifact_id": "art:wordsmith_ingestor",
+      "new_spdx": "Apache-2.0",
+      "license_status": "permissive_commercial"
+    },
+    {
+      "event": "resolve_artifact_rights",
+      "artifact_id": "art:oracle_associative",
+      "new_spdx": "Apache-2.0",
+      "license_status": "permissive_commercial"
+    },
+    {
+      "event": "resolve_artifact_rights",
+      "artifact_id": "art:sovereign_budget_thermo",
+      "new_spdx": "Apache-2.0",
+      "license_status": "permissive_commercial"
+    },
+    {
+      "event": "record_experiment_result",
+      "record": {
+        "event": "experiment_result_recorded",
+        "experiment_id": "exp:A_validar_demanda_curadoria",
+        "code": "A",
+        "outcome_summary": "3 clientes B2B fecharam piloto SaaS após demonstração com GenUI-MD e LottieMCP.",
+        "realized_cost_brl": 450.0,
+        "realized_revenue_brl": 2800.0
+      }
+    }
+  ],
+  "baseline_receipts": {
+    "alchemical_emblem": {
+      "status": "parameterized_ok",
+      "template_id": "alchemical_emblem",
+      "params_sha256": "85da9980208f766f",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "realized_brl": 3700.0,
+        "committed_brl": 2100.0,
+        "uncertainty_reduction_pct": 80.0,
+        "synergy_score": 61.60000000000001,
+        "resonance_index": 0.891,
+        "pulse_frequency_hz": 1.69
+      },
+      "patch_applied": false
+    },
+    "radial_profile": {
+      "status": "parameterized_ok",
+      "template_id": "radial_profile",
+      "params_sha256": "449b408034949183",
+      "lottie_version": "5.9.0",
+      "layers_count": 2,
+      "applied_params": {
+        "opportunity_title": "Oferta de Curadoria Semântica & Higienização de Corpus (Wordsmith + ValueCurator)",
+        "target_label": "Oferta de Curadoria Semântica & Higienização de Corpus (Wordsmith + ValueCurator)",
+        "scores": [
+          84.0,
+          90.0,
+          88.0,
+          82.0,
+          68.0,
+          76.0
+        ],
+        "estimated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "composite_score": 81.3
+      },
+      "patch_applied": false
+    },
+    "knowledge_graph": {
+      "status": "parameterized_ok",
+      "template_id": "knowledge_graph",
+      "params_sha256": "d9178271f9ec2faa",
+      "lottie_version": "5.9.0",
+      "layers_count": 7,
+      "applied_params": {
+        "total_nodes": 7,
+        "nodes_count": 7,
+        "total_edges": 9,
+        "edges_count": 9,
+        "bottlenecks_count": 3,
+        "top_hub_score": 9.6
+      },
+      "patch_applied": false
+    },
+    "portfolio_mosaic": {
+      "status": "parameterized_ok",
+      "template_id": "portfolio_mosaic",
+      "params_sha256": "19faec48723807c8",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "realized_brl": 3700.0,
+        "committed_brl": 2100.0,
+        "estimated_potential_brl": 180000.0,
+        "puxer_quantum_brl": 250.0,
+        "total_artifacts": 7,
+        "clear_rights_count": 4,
+        "pending_rights_count": 3,
+        "mean_readiness": 88.4
+      },
+      "patch_applied": false
+    },
+    "decision_matrix": {
+      "status": "parameterized_ok",
+      "template_id": "decision_matrix",
+      "params_sha256": "9027ce787d741c3d",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "experiments": [
+          {
+            "id": "exp:C_automatizar_registro_licencas",
+            "cost_brl": 350.0,
+            "expected_gain_pct": 38.0,
+            "voe_score": 108.57,
+            "status": "pending"
+          },
+          {
+            "id": "exp:A_validar_demanda_curadoria",
+            "cost_brl": 450.0,
+            "expected_gain_pct": 42.0,
+            "voe_score": 93.33,
+            "status": "pending"
+          },
+          {
+            "id": "exp:D_submeter_grant_compilatorum",
+            "cost_brl": 500.0,
+            "expected_gain_pct": 30.0,
+            "voe_score": 60.0,
+            "status": "pending"
+          }
+        ],
+        "budget_brl": 1500.0,
+        "phi_buffer": 1.34
+      },
+      "patch_applied": false
+    },
+    "capital_flow": {
+      "status": "parameterized_ok",
+      "template_id": "capital_flow",
+      "params_sha256": "dbc1543a86b63ba7",
+      "lottie_version": "5.9.0",
+      "layers_count": 5,
+      "applied_params": {
+        "stages": [
+          {
+            "stage_name": "1. Alocação",
+            "planned_brl": 4500.0,
+            "committed_brl": 2100.0,
+            "realized_brl": 2100.0
+          },
+          {
+            "stage_name": "2. Execução",
+            "planned_brl": 2500.0,
+            "committed_brl": 800.0,
+            "realized_brl": 650.0
+          },
+          {
+            "stage_name": "3. Marcos",
+            "planned_brl": 2000.0,
+            "committed_brl": 1300.0,
+            "realized_brl": 950.0
+          },
+          {
+            "stage_name": "4. Resultados",
+            "planned_brl": 12000.0,
+            "committed_brl": 3700.0,
+            "realized_brl": 3700.0
+          },
+          {
+            "stage_name": "5. Reinvestimento",
+            "planned_brl": 3000.0,
+            "committed_brl": 1100.0,
+            "realized_brl": 1100.0
+          }
+        ],
+        "phi_buffer": 1.34,
+        "committed_brl": 2100.0,
+        "realized_brl": 3700.0,
+        "net_roi_pct": 76.19,
+        "learning_velocity": 82.0
+      },
+      "patch_applied": false
+    }
+  },
+  "mutated_receipts": {
+    "alchemical_emblem": {
+      "status": "parameterized_ok",
+      "template_id": "alchemical_emblem",
+      "params_sha256": "1258408a963b1147",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "realized_brl": 6500.0,
+        "committed_brl": 2550.0,
+        "uncertainty_reduction_pct": 94.0,
+        "synergy_score": 88.0,
+        "resonance_index": 0.819,
+        "pulse_frequency_hz": 1.69
+      },
+      "patch_applied": true
+    },
+    "radial_profile": {
+      "status": "parameterized_ok",
+      "template_id": "radial_profile",
+      "params_sha256": "5a48b217235e0e37",
+      "lottie_version": "5.9.0",
+      "layers_count": 2,
+      "applied_params": {
+        "opportunity_title": "Oferta de Curadoria Semântica & Higienização de Corpus (Wordsmith + ValueCurator)",
+        "target_label": "Oferta de Curadoria Semântica & Higienização de Corpus (Wordsmith + ValueCurator)",
+        "scores": [
+          92.0,
+          90.0,
+          88.0,
+          82.0,
+          68.0,
+          84.0
+        ],
+        "estimated_flags": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        "composite_score": 84.0
+      },
+      "patch_applied": true
+    },
+    "knowledge_graph": {
+      "status": "parameterized_ok",
+      "template_id": "knowledge_graph",
+      "params_sha256": "18a99c1db8fec020",
+      "lottie_version": "5.9.0",
+      "layers_count": 7,
+      "applied_params": {
+        "total_nodes": 7,
+        "nodes_count": 7,
+        "total_edges": 9,
+        "edges_count": 9,
+        "bottlenecks_count": 0,
+        "top_hub_score": 9.6
+      },
+      "patch_applied": true
+    },
+    "portfolio_mosaic": {
+      "status": "parameterized_ok",
+      "template_id": "portfolio_mosaic",
+      "params_sha256": "62908d509e2b7d06",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "realized_brl": 3700.0,
+        "committed_brl": 2100.0,
+        "estimated_potential_brl": 180000.0,
+        "puxer_quantum_brl": 250.0,
+        "total_artifacts": 7,
+        "clear_rights_count": 7,
+        "pending_rights_count": 0,
+        "mean_readiness": 88.4
+      },
+      "patch_applied": true
+    },
+    "decision_matrix": {
+      "status": "parameterized_ok",
+      "template_id": "decision_matrix",
+      "params_sha256": "09f41f0731462e28",
+      "lottie_version": "5.9.0",
+      "layers_count": 3,
+      "applied_params": {
+        "experiments": [
+          {
+            "id": "exp:C_automatizar_registro_licencas",
+            "cost_brl": 350.0,
+            "expected_gain_pct": 38.0,
+            "voe_score": 108.57,
+            "status": "pending"
+          },
+          {
+            "id": "exp:A_validar_demanda_curadoria",
+            "cost_brl": 450.0,
+            "expected_gain_pct": 42.0,
+            "voe_score": 93.33,
+            "status": "completed"
+          },
+          {
+            "id": "exp:D_submeter_grant_compilatorum",
+            "cost_brl": 500.0,
+            "expected_gain_pct": 30.0,
+            "voe_score": 60.0,
+            "status": "pending"
+          }
+        ],
+        "budget_brl": 1500.0,
+        "phi_buffer": 1.34
+      },
+      "patch_applied": true
+    },
+    "capital_flow": {
+      "status": "parameterized_ok",
+      "template_id": "capital_flow",
+      "params_sha256": "749f7263c0f6bb00",
+      "lottie_version": "5.9.0",
+      "layers_count": 5,
+      "applied_params": {
+        "stages": [
+          {
+            "stage_name": "1. Alocação",
+            "planned_brl": 4500.0,
+            "committed_brl": 2100.0,
+            "realized_brl": 2100.0
+          },
+          {
+            "stage_name": "2. Execução",
+            "planned_brl": 2500.0,
+            "committed_brl": 800.0,
+            "realized_brl": 650.0
+          },
+          {
+            "stage_name": "3. Marcos",
+            "planned_brl": 2000.0,
+            "committed_brl": 1300.0,
+            "realized_brl": 950.0
+          },
+          {
+            "stage_name": "4. Resultados",
+            "planned_brl": 12000.0,
+            "committed_brl": 3700.0,
+            "realized_brl": 3700.0
+          },
+          {
+            "stage_name": "5. Reinvestimento",
+            "planned_brl": 3000.0,
+            "committed_brl": 1100.0,
+            "realized_brl": 1100.0
+          }
+        ],
+        "phi_buffer": 1.34,
+        "committed_brl": 2550.0,
+        "realized_brl": 6500.0,
+        "net_roi_pct": 154.9,
+        "learning_velocity": 95.0
+      },
+      "patch_applied": true
+    }
+  }
+}

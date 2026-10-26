@@ -664,6 +664,8 @@
   "meta": {
     "realized_puxers": 15,
     "committed_puxers": 8,
-    "puxer_quantum_brl": 250.0
+    "puxer_quantum_brl": 250.0,
+    "clear_rights_count": 4,
+    "pending_rights_count": 3
   }
 }

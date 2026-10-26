@@ -5,7 +5,7 @@
   "op": 60,
   "w": 400,
   "h": 400,
-  "nm": "PixelCoin_Alchemical_Emblem_R85",
+  "nm": "PixelCoin_Alchemical_Emblem_R89",
   "ddd": 0,
   "assets": [],
   "layers": [
@@ -129,8 +129,8 @@
               "s": {
                 "a": 0,
                 "k": [
-                  113.2,
-                  113.2
+                  114.8,
+                  114.8
                 ]
               },
               "p": {
@@ -389,7 +389,7 @@
               },
               "or": {
                 "a": 0,
-                "k": 91.6
+                "k": 92.8
               },
               "os": {
                 "a": 0,
@@ -627,8 +627,8 @@
               "s": {
                 "a": 0,
                 "k": [
-                  296.4,
-                  296.4
+                  300.2,
+                  300.2
                 ]
               },
               "p": {
@@ -712,8 +712,8 @@
       "terra_realized_brl": 3700.0,
       "aqua_committed_brl": 2100.0,
       "ignis_uncertainty_pct": 80.0,
-      "aer_synergy_score": 62.0,
-      "resonance_index": 0.85
+      "aer_synergy_score": 61.60000000000001,
+      "resonance_index": 0.891
     }
   }
 }

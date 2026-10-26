@@ -1097,6 +1097,7 @@
   ],
   "meta": {
     "stages_count": 5,
-    "phi_buffer": 1.34
+    "phi_buffer": 1.34,
+    "net_roi_pct": 76.19
   }
 }

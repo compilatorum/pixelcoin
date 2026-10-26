@@ -5,7 +5,7 @@
   "op": 120,
   "w": 400,
   "h": 400,
-  "nm": "PixelCoin_Radial_Curadoria Semântic",
+  "nm": "PixelCoin_Radial_Oferta de Curadori",
   "ddd": 0,
   "assets": [],
   "layers": [
@@ -433,7 +433,7 @@
     }
   ],
   "meta": {
-    "average_score": 81.33,
+    "average_score": 81.3,
     "estimated_dimensions_count": 1
   }
 }

@@ -293,10 +293,13 @@ class LottieTemplateRegistry:
         result = builders[template_id](params_json)
         param_hash = hashlib.sha256(json.dumps(params_json, sort_keys=True, default=str).encode("utf-8")).hexdigest()[:16]
         result["parameterization_receipt"] = {
+            "status": "parameterized_ok",
             "template_id": template_id,
             "params_sha256": param_hash,
             "lottie_version": result["lottie_json"]["v"],
             "layers_count": len(result["lottie_json"]["layers"]),
+            "applied_params": result.get("applied_params", {}),
+            "patch_applied": False,
         }
         return result
 
@@ -309,7 +312,9 @@ class LottieTemplateRegistry:
         template_id = existing_bundle.get("template_id", "alchemical_emblem")
         merged_params = copy.deepcopy(existing_bundle.get("applied_params", {}))
         merged_params.update(patch_json)
-        return cls.render_template(template_id, merged_params)
+        res = cls.render_template(template_id, merged_params)
+        res["parameterization_receipt"]["patch_applied"] = True
+        return res
 
     @classmethod
     def _build_alchemical_emblem(cls, params: Dict[str, Any]) -> Dict[str, Any]:
@@ -395,14 +400,29 @@ class LottieTemplateRegistry:
                 "pulse_frequency_hz": pulse_hz,
             },
             "lottie_json": lottie_json,
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<circle cx="200" cy="200" r="{outer_r}" fill="none" stroke="#00FF88" stroke-width="2" stroke-dasharray="5,3"/>'
+                f'<circle cx="200" cy="200" r="{hex_r}" fill="rgba(0,191,255,0.12)" stroke="#00BFFF" stroke-width="2"/>'
+                f'<circle cx="200" cy="200" r="{core_r}" fill="#0D1A10" stroke="#FFD700" stroke-width="2.5"/>'
+                f'<text x="200" y="196" text-anchor="middle" fill="#FFD700" font-family="monospace" font-size="18" font-weight="bold">🜏 R_LE={resonance_idx:.2f}</text>'
+                f'<text x="200" y="216" text-anchor="middle" fill="#00FF88" font-family="monospace" font-size="11">🜃 R${realized:.0f} | 🜄 R${committed:.0f}</text>'
+                f'<text x="200" y="382" text-anchor="middle" fill="#B388FF" font-family="monospace" font-size="10">🜂 ΔInc -{uncertainty:.0f}% · 🜁 Sinergia {synergy:.0f}pts · {pulse_hz}Hz</text>'
+                f'</svg>'
+            ),
         }
 
     @classmethod
     def _build_radial_profile(cls, params: Dict[str, Any]) -> Dict[str, Any]:
-        title = str(params.get("opportunity_title", "Curadoria Semântica B2B"))
-        scores: List[float] = list(params.get("scores", [84.0, 90.0, 88.0, 82.0, 68.0, 76.0]))
+        title = str(params.get("opportunity_title") or params.get("target_label") or "Curadoria Semântica B2B")
+        axes_dict = params.get("axes")
+        if isinstance(axes_dict, dict) and axes_dict:
+            scores: List[float] = [float(v) for v in axes_dict.values()]
+        else:
+            scores = list(params.get("scores", [84.0, 90.0, 88.0, 82.0, 68.0, 76.0]))
         estimated_flags: List[bool] = list(params.get("estimated_flags", [False, False, False, False, False, True]))
-        avg_score = sum(scores) / max(1, len(scores))
+        avg_score = float(params.get("composite_score", sum(scores) / max(1, len(scores))))
         est_count = sum(1 for f in estimated_flags if f)
 
         radius = round(60.0 + (avg_score * 0.85), 1)
@@ -434,8 +454,10 @@ class LottieTemplateRegistry:
             "template_id": "radial_profile",
             "applied_params": {
                 "opportunity_title": title,
+                "target_label": title,
                 "scores": scores,
                 "estimated_flags": estimated_flags,
+                "composite_score": round(avg_score, 2),
             },
             "lottie_json": {
                 "v": "5.9.0",
@@ -450,12 +472,21 @@ class LottieTemplateRegistry:
                 "layers": layers,
                 "meta": {"average_score": round(avg_score, 2), "estimated_dimensions_count": est_count},
             },
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<circle cx="200" cy="200" r="145" fill="none" stroke="#1A3320" stroke-width="1.5"/>'
+                f'<circle cx="200" cy="200" r="{radius}" fill="rgba(0,255,136,0.14)" stroke="{stroke_color}" stroke-width="2.5"/>'
+                f'<text x="200" y="196" text-anchor="middle" fill="#C8E6C9" font-family="monospace" font-size="13" font-weight="bold">{title[:32]}</text>'
+                f'<text x="200" y="216" text-anchor="middle" fill="{stroke_color}" font-family="monospace" font-size="12">Média={avg_score:.1f}/100 ({est_count} est.)</text>'
+                f'</svg>'
+            ),
         }
 
     @classmethod
     def _build_knowledge_graph(cls, params: Dict[str, Any]) -> Dict[str, Any]:
-        total_nodes = int(params.get("total_nodes", 7))
-        total_edges = int(params.get("total_edges", 9))
+        total_nodes = int(params.get("total_nodes", params.get("nodes_count", 7)))
+        total_edges = int(params.get("total_edges", params.get("edges_count", 9)))
         bottlenecks = int(params.get("bottlenecks_count", 3))
         top_hub_score = float(params.get("top_hub_score", 9.6))
 
@@ -483,7 +514,9 @@ class LottieTemplateRegistry:
             "template_id": "knowledge_graph",
             "applied_params": {
                 "total_nodes": total_nodes,
+                "nodes_count": total_nodes,
                 "total_edges": total_edges,
+                "edges_count": total_edges,
                 "bottlenecks_count": bottlenecks,
                 "top_hub_score": top_hub_score,
             },
@@ -500,6 +533,16 @@ class LottieTemplateRegistry:
                 "layers": layers,
                 "meta": {"total_nodes": total_nodes, "total_edges": total_edges, "bottlenecks": bottlenecks},
             },
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<line x1="90" y1="120" x2="310" y2="280" stroke="#00BFFF" stroke-width="2"/>'
+                f'<line x1="310" y1="120" x2="90" y2="280" stroke="#FF4455" stroke-width="2" stroke-dasharray="5,4"/>'
+                f'<circle cx="200" cy="200" r="36" fill="#0D1A10" stroke="#00FF88" stroke-width="3"/>'
+                f'<text x="200" y="204" text-anchor="middle" fill="#00FF88" font-family="monospace" font-size="11" font-weight="bold">Hub {top_hub_score}</text>'
+                f'<text x="200" y="378" text-anchor="middle" fill="#C8E6C9" font-family="monospace" font-size="11">{total_nodes} Nós · {total_edges} Arestas · Gargalos: {bottlenecks}</text>'
+                f'</svg>'
+            ),
         }
 
     @classmethod
@@ -508,6 +551,10 @@ class LottieTemplateRegistry:
         committed = float(params.get("committed_brl", 2100.0))
         potential = float(params.get("estimated_potential_brl", 180000.0))
         quantum = float(params.get("puxer_quantum_brl", 250.0))
+        total_artifacts = int(params.get("total_artifacts", 7))
+        clear_rights_count = int(params.get("clear_rights_count", 4))
+        pending_rights_count = int(params.get("pending_rights_count", 3))
+        mean_readiness = float(params.get("mean_readiness", 88.4))
 
         realized_puxers = max(1, int(round(realized / quantum)))
         committed_puxers = max(1, int(round(committed / quantum)))
@@ -555,6 +602,10 @@ class LottieTemplateRegistry:
                 "committed_brl": committed,
                 "estimated_potential_brl": potential,
                 "puxer_quantum_brl": quantum,
+                "total_artifacts": total_artifacts,
+                "clear_rights_count": clear_rights_count,
+                "pending_rights_count": pending_rights_count,
+                "mean_readiness": mean_readiness,
             },
             "lottie_json": {
                 "v": "5.9.0",
@@ -571,8 +622,21 @@ class LottieTemplateRegistry:
                     "realized_puxers": realized_puxers,
                     "committed_puxers": committed_puxers,
                     "puxer_quantum_brl": quantum,
+                    "clear_rights_count": clear_rights_count,
+                    "pending_rights_count": pending_rights_count,
                 },
             },
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<rect x="25" y="60" width="{w_realized}" height="120" rx="6" fill="rgba(0,255,136,0.22)" stroke="#00FF88" stroke-width="2"/>'
+                f'<text x="35" y="120" fill="#00FF88" font-family="monospace" font-size="11" font-weight="bold">🜃 Realizado: R${realized:.0f} ({realized_puxers} pux)</text>'
+                f'<rect x="215" y="60" width="{w_committed}" height="120" rx="6" fill="rgba(0,191,255,0.22)" stroke="#00BFFF" stroke-width="2"/>'
+                f'<text x="225" y="120" fill="#00BFFF" font-family="monospace" font-size="11" font-weight="bold">🜄 Custo: R${committed:.0f} ({committed_puxers} pux)</text>'
+                f'<rect x="25" y="210" width="350" height="120" rx="6" fill="rgba(255,184,0,0.16)" stroke="#FFB800" stroke-width="2" stroke-dasharray="5,3"/>'
+                f'<text x="200" y="275" text-anchor="middle" fill="#FFB800" font-family="monospace" font-size="12" font-weight="bold">🜂 Potencial Estimado: R${potential:.0f}/ano · SPDX {clear_rights_count}/{total_artifacts}</text>'
+                f'</svg>'
+            ),
         }
 
     @classmethod
@@ -634,18 +698,36 @@ class LottieTemplateRegistry:
                 "layers": layers,
                 "meta": {"budget_brl": budget, "phi_buffer": phi},
             },
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<line x1="40" y1="350" x2="370" y2="350" stroke="#6B9E7A" stroke-width="1.5"/>'
+                f'<line x1="40" y1="40" x2="40" y2="350" stroke="#6B9E7A" stroke-width="1.5"/>'
+                f'<circle cx="115" cy="110" r="36" fill="rgba(255,215,0,0.24)" stroke="#FFD700" stroke-width="2.5"/>'
+                f'<text x="115" y="114" text-anchor="middle" fill="#FFD700" font-family="monospace" font-size="11" font-weight="bold">Exp C (108.6)</text>'
+                f'<circle cx="145" cy="90" r="32" fill="rgba(0,255,136,0.24)" stroke="#00FF88" stroke-width="2.5"/>'
+                f'<text x="145" y="94" text-anchor="middle" fill="#00FF88" font-family="monospace" font-size="11" font-weight="bold">Exp A (93.3)</text>'
+                f'<circle cx="310" cy="210" r="18" fill="rgba(0,191,255,0.20)" stroke="#00BFFF" stroke-width="2"/>'
+                f'<text x="310" y="214" text-anchor="middle" fill="#00BFFF" font-family="monospace" font-size="10">Exp B (29.2)</text>'
+                f'<text x="200" y="382" text-anchor="middle" fill="#C8E6C9" font-family="monospace" font-size="10">Orçamento R${budget:.0f} · Φ_buffer={phi:.2f}x</text>'
+                f'</svg>'
+            ),
         }
 
     @classmethod
     def _build_capital_flow(cls, params: Dict[str, Any]) -> Dict[str, Any]:
+        committed_brl = float(params.get("committed_brl", 2100.0))
+        realized_brl = float(params.get("realized_brl", 3700.0))
+        net_roi_pct = float(params.get("net_roi_pct", 76.19))
+        learning_velocity = float(params.get("learning_velocity", 82.0))
         stages: List[Dict[str, Any]] = list(
             params.get(
                 "stages",
                 [
-                    {"stage_name": "1. Alocação", "planned_brl": 4500.0, "committed_brl": 2100.0, "realized_brl": 2100.0},
+                    {"stage_name": "1. Alocação", "planned_brl": 4500.0, "committed_brl": committed_brl, "realized_brl": committed_brl},
                     {"stage_name": "2. Execução", "planned_brl": 2500.0, "committed_brl": 800.0, "realized_brl": 650.0},
                     {"stage_name": "3. Marcos", "planned_brl": 2000.0, "committed_brl": 1300.0, "realized_brl": 950.0},
-                    {"stage_name": "4. Resultados", "planned_brl": 12000.0, "committed_brl": 3700.0, "realized_brl": 3700.0},
+                    {"stage_name": "4. Resultados", "planned_brl": 12000.0, "committed_brl": realized_brl, "realized_brl": realized_brl},
                     {"stage_name": "5. Reinvestimento", "planned_brl": 3000.0, "committed_brl": 1100.0, "realized_brl": 1100.0},
                 ],
             )
@@ -673,7 +755,14 @@ class LottieTemplateRegistry:
 
         return {
             "template_id": "capital_flow",
-            "applied_params": {"stages": stages, "phi_buffer": phi},
+            "applied_params": {
+                "stages": stages,
+                "phi_buffer": phi,
+                "committed_brl": committed_brl,
+                "realized_brl": realized_brl,
+                "net_roi_pct": net_roi_pct,
+                "learning_velocity": learning_velocity,
+            },
             "lottie_json": {
                 "v": "5.9.0",
                 "fr": 60,
@@ -685,6 +774,19 @@ class LottieTemplateRegistry:
                 "ddd": 0,
                 "assets": [],
                 "layers": layers,
-                "meta": {"stages_count": len(stages), "phi_buffer": phi},
+                "meta": {"stages_count": len(stages), "phi_buffer": phi, "net_roi_pct": net_roi_pct},
             },
+            "svg_vector": (
+                f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">'
+                f'<rect width="400" height="400" fill="#07100A" rx="8"/>'
+                f'<rect x="35" y="160" width="46" height="180" rx="4" fill="rgba(0,255,136,0.3)" stroke="#00FF88" stroke-width="2"/>'
+                f'<rect x="105" y="260" width="46" height="80" rx="4" fill="rgba(0,191,255,0.3)" stroke="#00BFFF" stroke-width="2"/>'
+                f'<rect x="175" y="230" width="46" height="110" rx="4" fill="rgba(179,136,255,0.3)" stroke="#B388FF" stroke-width="2"/>'
+                f'<rect x="245" y="90" width="46" height="250" rx="4" fill="rgba(0,255,136,0.45)" stroke="#00FF88" stroke-width="2.5"/>'
+                f'<rect x="315" y="210" width="46" height="130" rx="4" fill="rgba(255,215,0,0.3)" stroke="#FFD700" stroke-width="2"/>'
+                f'<text x="200" y="378" text-anchor="middle" fill="#00FF88" font-family="monospace" font-size="10">Realizado R${realized_brl:.0f} · ROI {net_roi_pct:.1f}% · Φ={phi:.2f}x</text>'
+                f'</svg>'
+            ),
         }
+
+    TEMPLATES = TEMPLATE_METADATA
